@@ -91,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ThumbStickTrans: {fileID: 7745775569157212020}
   BackGroundTrans: {fileID: 6619596558843624340}
+  CenterTrans: {fileID: 6294189415423671837}
 --- !u!1 &2802874637999592744
 GameObject:
   m_ObjectHideFlags: 0
