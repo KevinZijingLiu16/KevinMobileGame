@@ -45,6 +45,8 @@ public class JoyStick : MonoBehaviour,IDragHandler,IPointerDownHandler,IPointerU
       // Debug.Log($"OnPointerUp Fire ");
       BackGroundTrans.position = CenterTrans.position;
         ThumbStickTrans.position = BackGroundTrans.position;
+
+        OnStickValueUpdated?.Invoke(Vector2.zero);
     }
 
     // Start is called before the first frame update
