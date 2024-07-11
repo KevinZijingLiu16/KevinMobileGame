@@ -10,6 +10,12 @@ public class Player : MonoBehaviour
     [SerializeField] CharacterController characterController;
     [SerializeField] float moveSpeed = 20f;
     [SerializeField] float turnSpeed = 20f;
+    [SerializeField] float animTurnSpeed = 20f;
+
+    Animator animator;
+    float animatorTurnSpeed;
+
+
 
 
     Camera mainCamera;
@@ -26,6 +32,7 @@ public class Player : MonoBehaviour
         aimStick.OnStickValueUpdated += aimStickUpdated;
         mainCamera = Camera.main;
         cameraController = FindAnyObjectByType<CameraController>();
+        animator = GetComponent<Animator>();
     }
 
     private void moveStickUpdated(Vector2 inputValue)
@@ -49,17 +56,28 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        PerformMove();
+        PerformMoveAndAim();
         UpdateCamera();
     }
 
-    private void PerformMove()
+    private void PerformMoveAndAim()
     {
         Vector3 moveDir = StickInputToWorldDir(moveInput);
         characterController.Move(moveDir * Time.deltaTime * moveSpeed);
+        UpdateAim(moveDir);
 
+        // Dot(a,b) = |a| |b| cos(theta)
 
-        Vector3 aimDir = moveDir;
+        float forword = Vector3.Dot( moveDir , transform.forward);
+        float right = Vector3.Dot(moveDir, transform.right);
+
+        animator.SetFloat("ForwardSpeed", forword);
+        animator.SetFloat("RightSpeed", right);
+    }
+
+    private void UpdateAim(Vector3 currentMoveDir)
+    {
+        Vector3 aimDir = currentMoveDir;
 
         if (aimInput.magnitude != 0)
         {
@@ -67,29 +85,39 @@ public class Player : MonoBehaviour
         }
 
         RotateTowards(aimDir);
-        
     }
 
     private void UpdateCamera()
     {
-        if (moveInput.magnitude != 0)
+        //if the player is moving and not aiming, rotate the camera with the player
+        if (moveInput.magnitude != 0 && aimInput.magnitude == 0 && cameraController != null)
         {
 
-            if (cameraController != null)
-            {
+            
                 cameraController.AddYawInput(moveInput.x);
 
-            }
+            
 
         }
     }
 
     private void RotateTowards(Vector3 aimDir)
     {
+        float currentTurnSpeed = 0;
         if (aimDir.magnitude != 0)
         {
+            Quaternion prevRot = transform.rotation;
             float turnLerpAlpha = turnSpeed * Time.deltaTime;
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(aimDir, Vector3.up), turnLerpAlpha);
+
+            Quaternion currentRot = transform.rotation;
+
+            float Dir = Vector3.Dot(aimDir, transform.right) > 0 ? 1 : -1;
+            float rotationDelta = Quaternion.Angle(prevRot, currentRot) * Dir;
+             currentTurnSpeed = rotationDelta / Time.deltaTime;
         }
+
+        animatorTurnSpeed = Mathf.Lerp(animatorTurnSpeed, currentTurnSpeed, Time.deltaTime  * animTurnSpeed);
+            animator.SetFloat("TurningSpeed", animatorTurnSpeed);
     }
 }
