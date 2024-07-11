@@ -1,5 +1,67 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &661689213352254871
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 744883799769880784}
+  m_Layer: 0
+  m_Name: RifleAttachPoint
+  m_TagString: RifleAttachSlot
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &744883799769880784
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661689213352254871}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.5694285, y: 0.48170176, z: -0.361566, w: 0.5594502}
+  m_LocalPosition: {x: 0.012, y: 0.028, z: 0.012}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6522977792835051559}
+  m_LocalEulerAnglesHint: {x: -16.786, y: 96.753, z: -84.603}
+--- !u!1 &2733564842228032311
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4407499312298896098}
+  m_Layer: 0
+  m_Name: PistolAttachPoint
+  m_TagString: PistolAttachSlot
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4407499312298896098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2733564842228032311}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.5917152, y: 0.30506507, z: -0.518175, w: 0.53693855}
+  m_LocalPosition: {x: 0.033, y: 0.034, z: -0.014}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6522977792835051559}
+  m_LocalEulerAnglesHint: {x: -18.619, y: 83.114, z: -104.499}
 --- !u!1 &6171100531985443575
 GameObject:
   m_ObjectHideFlags: 0
@@ -12,6 +74,7 @@ GameObject:
   - component: {fileID: -1779230402981337676}
   - component: {fileID: 4196142090038208169}
   - component: {fileID: 4218864805293809939}
+  - component: {fileID: 8358842444515119051}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -50,8 +113,9 @@ MonoBehaviour:
   moveStick: {fileID: 0}
   aimStick: {fileID: 0}
   characterController: {fileID: 4196142090038208169}
-  moveSpeed: 20
-  turnSpeed: 20
+  moveSpeed: 5
+  turnSpeed: 8
+  animTurnSpeed: 5
 --- !u!143 &4196142090038208169
 CharacterController:
   m_ObjectHideFlags: 0
@@ -99,6 +163,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8358842444515119051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6171100531985443575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3d8160a5b5c2b647b0eb255fb1510a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialWeaponPrefabs:
+  - {fileID: -7194950161213072820, guid: 2e4c831f534d8a74485967242b59fe1a, type: 3}
+  - {fileID: 3296916562788868035, guid: 08c128c0dab2cbb479a9d5df2d0ffbcd, type: 3}
+  weaponAttachSlotArray:
+  - {fileID: 744883799769880784}
+  - {fileID: 4407499312298896098}
+  defaultWeaponAttachSlot: {fileID: 6522977792835051557}
 --- !u!1001 &6522977792835452107
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -170,9 +253,29 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 9500000, guid: a5674d01884853d4e8f2386a171e14d9, type: 3}
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 400620, guid: a5674d01884853d4e8f2386a171e14d9,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 744883799769880784}
+    - targetCorrespondingSourceObject: {fileID: 400620, guid: a5674d01884853d4e8f2386a171e14d9,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4407499312298896098}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5674d01884853d4e8f2386a171e14d9, type: 3}
+--- !u!4 &6522977792835051557 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400622, guid: a5674d01884853d4e8f2386a171e14d9,
+    type: 3}
+  m_PrefabInstance: {fileID: 6522977792835452107}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6522977792835051559 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400620, guid: a5674d01884853d4e8f2386a171e14d9,
+    type: 3}
+  m_PrefabInstance: {fileID: 6522977792835452107}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6522977792835053549 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400166, guid: a5674d01884853d4e8f2386a171e14d9,
