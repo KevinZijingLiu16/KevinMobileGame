@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - RifleAttachSlot
+  - PistolAttachSlot
   layers:
   - Default
   - TransparentFX
