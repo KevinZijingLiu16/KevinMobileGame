@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 
 
 
@@ -13,8 +14,12 @@ public class JoyStick : MonoBehaviour,IDragHandler,IPointerDownHandler,IPointerU
     [SerializeField] RectTransform CenterTrans;
 
     public delegate void OnStickInputVlaueUpdated(Vector2 inputVal);
+    public delegate void OnStickTab();
 
     public event OnStickInputVlaueUpdated OnStickValueUpdated;
+    public event OnStickTab OnStickTabed;
+
+    bool bWasDragging;
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -28,6 +33,8 @@ public class JoyStick : MonoBehaviour,IDragHandler,IPointerDownHandler,IPointerU
         ThumbStickTrans.position = LocalOffset + centerPos;
 
         OnStickValueUpdated?.Invoke(inputVal);
+
+        bWasDragging = true;
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -36,7 +43,9 @@ public class JoyStick : MonoBehaviour,IDragHandler,IPointerDownHandler,IPointerU
         BackGroundTrans.position = eventData.position;
         ThumbStickTrans.position = eventData.position;
 
-        OnStickValueUpdated?.Invoke(Vector2.zero);
+        bWasDragging = false;
+
+        //OnStickValueUpdated?.Invoke(Vector2.zero);
 
     }
 
@@ -47,6 +56,11 @@ public class JoyStick : MonoBehaviour,IDragHandler,IPointerDownHandler,IPointerU
         ThumbStickTrans.position = BackGroundTrans.position;
 
         OnStickValueUpdated?.Invoke(Vector2.zero);
+
+        if (!bWasDragging)
+        {
+            OnStickTabed?.Invoke();
+        }
     }
 
     // Start is called before the first frame update
