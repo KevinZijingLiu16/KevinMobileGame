@@ -48,11 +48,21 @@ public class Player : MonoBehaviour
     private void moveStickUpdated(Vector2 inputValue)
     {
         moveInput = inputValue;
+
     }
 
     private void aimStickUpdated(Vector2 inputValue)
     {
         aimInput = inputValue;
+        if (aimInput.magnitude > 0)
+        {
+            animator.SetBool("Attacking", true);
+        }
+        else
+        {
+            animator.SetBool("Attacking", false);
+        }
+
     }
 
     Vector3 StickInputToWorldDir(Vector2 inputVal)
