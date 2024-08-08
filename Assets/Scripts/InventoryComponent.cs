@@ -49,7 +49,10 @@ public class InventoryComponent : MonoBehaviour
         }
         EquipWeapon(nextWeaponIndex);
     }
-
+    internal Weapon GetActiveWeapon()
+    {
+        return weapons[currentWeaponIndex];
+    }
     private void EquipWeapon(int weaponIndex)
     {
         if (weaponIndex < 0 || weaponIndex >= weapons.Count)
@@ -64,4 +67,6 @@ public class InventoryComponent : MonoBehaviour
         weapons[weaponIndex].Equip();
         currentWeaponIndex = weaponIndex;
     }
+
+   
 }
