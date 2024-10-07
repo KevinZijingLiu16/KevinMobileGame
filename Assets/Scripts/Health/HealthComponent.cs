@@ -43,7 +43,7 @@ public class HealthComponent : MonoBehaviour
             health = maxHealth;
         }
 
-        Debug.Log($"{gameObject}, taking damage: {amt} , health is now {health}");
+       // Debug.Log($"{gameObject}, taking damage: {amt} , health is now {health}");
 
     }
 }

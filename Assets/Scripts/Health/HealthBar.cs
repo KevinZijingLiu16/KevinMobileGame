@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,9 +14,15 @@ public class HealthBar : MonoBehaviour
         _attchPoint = attachPoint;
     }
 
-    public void SetHealthSliderValue(float val)
+    public void SetHealthSliderValue(float health, float delta, float maxHealth)
     {
-        healthSlider.value = val;
+        healthSlider.value = health/maxHealth;
+
+    }
+
+    internal void OnOwnerDead()
+    {
+        Destroy(gameObject);
     }
 
     private void Update()
@@ -23,6 +30,7 @@ public class HealthBar : MonoBehaviour
         Vector3 attachScreenPoint = Camera.main.WorldToScreenPoint(_attchPoint.position);
         transform.position = attachScreenPoint;
 
+       
 
     }
 
