@@ -7,12 +7,12 @@ public class AimComponent : MonoBehaviour
     [SerializeField] Transform muzzle;
     [SerializeField] float aimRange = 1000f;
     [SerializeField] LayerMask aimMask;
-    public GameObject GetAimTarget()
+    public GameObject GetAimTarget(out Vector3 aimDir)
     {
         Vector3 aimStart = muzzle.position;
-       
+       aimDir = GetAimDir();
 
-        if (Physics.Raycast(aimStart, GetAimDir(), out RaycastHit hitInfo, aimRange, aimMask ))
+        if (Physics.Raycast(aimStart, aimDir, out RaycastHit hitInfo, aimRange, aimMask ))
         {
             return hitInfo.collider.gameObject;
         }
