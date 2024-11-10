@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 4196142090038208169}
   - component: {fileID: 4218864805293809939}
   - component: {fileID: 8358842444515119051}
+  - component: {fileID: 348314706811506389}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -116,6 +117,7 @@ MonoBehaviour:
   moveSpeed: 5
   turnSpeed: 8
   animTurnSpeed: 5
+  inventoryComponent: {fileID: 8358842444515119051}
 --- !u!143 &4196142090038208169
 CharacterController:
   m_ObjectHideFlags: 0
@@ -182,6 +184,18 @@ MonoBehaviour:
   - {fileID: 744883799769880784}
   - {fileID: 4407499312298896098}
   defaultWeaponAttachSlot: {fileID: 6522977792835051557}
+--- !u!114 &348314706811506389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6171100531985443575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13d06d49c94dbed469ac66bf2dbe48cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6522977792835452107
 PrefabInstance:
   m_ObjectHideFlags: 0
