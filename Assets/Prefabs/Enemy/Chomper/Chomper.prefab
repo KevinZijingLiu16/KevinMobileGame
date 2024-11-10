@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 801656718024904415}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.23, z: 0}
+  m_LocalPosition: {x: 0, y: 1.57, z: -0.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46,6 +46,10 @@ GameObject:
   - component: {fileID: 8714880911002780237}
   - component: {fileID: 6573272104524732571}
   - component: {fileID: 3509530979378768025}
+  - component: {fileID: 2773287245108825530}
+  - component: {fileID: 6333758688443100034}
+  - component: {fileID: 7934991767346931740}
+  - component: {fileID: 8314459275794447549}
   m_Layer: 0
   m_Name: Chomper
   m_TagString: Untagged
@@ -63,8 +67,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2781116823535170256}
   - {fileID: 8290870319932242245}
@@ -89,10 +93,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.8
-  m_Height: 5.31
+  m_Radius: 0.33991727
+  m_Height: 1.41
   m_Direction: 1
-  m_Center: {x: 0, y: 1.26, z: 0}
+  m_Center: {x: 0, y: 0.35, z: 0.14991593}
 --- !u!54 &5887518213792390374
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -148,6 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthComponent: {fileID: 910988210147573707}
   animator: {fileID: 6573272104524732571}
+  perceptionComp: {fileID: 7934991767346931740}
 --- !u!95 &6573272104524732571
 Animator:
   serializedVersion: 5
@@ -185,6 +190,65 @@ MonoBehaviour:
     type: 3}
   healthBarAttachPoint: {fileID: 8290870319932242245}
   healthComponent: {fileID: 910988210147573707}
+--- !u!114 &2773287245108825530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8972963040497599414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89fbfeab2869c144dac9b9094cf6509e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forgettingTime: 3
+  awareDistance: 3
+--- !u!114 &6333758688443100034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8972963040497599414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a37d050c144cc14c92fdd3d7cdd84ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forgettingTime: 3
+  sightDistance: 5
+  sightHalfAngle: 45
+  eyeHeight: 1.5
+--- !u!114 &7934991767346931740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8972963040497599414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6090d6670a48df145a97741b35351336, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  senses:
+  - {fileID: 6333758688443100034}
+  - {fileID: 2773287245108825530}
+  - {fileID: 8314459275794447549}
+--- !u!114 &8314459275794447549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8972963040497599414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2fb87b4aea0d544582faf0da16f4214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forgettingTime: 3
 --- !u!1001 &2781116823535036498
 PrefabInstance:
   m_ObjectHideFlags: 0
