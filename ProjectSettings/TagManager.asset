@@ -6,6 +6,7 @@ TagManager:
   tags:
   - RifleAttachSlot
   - PistolAttachSlot
+  - Enemy
   layers:
   - Default
   - TransparentFX

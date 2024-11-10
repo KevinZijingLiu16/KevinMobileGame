@@ -49,9 +49,5 @@ public class HitSense : SenseComp
     }
 
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
 }
