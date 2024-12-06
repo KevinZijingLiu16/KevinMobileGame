@@ -60,8 +60,15 @@ public class SlimeBehavior : MonoBehaviour
     {
         Vector3 direction = (targetPosition - transform.position).normalized;
         transform.position += direction * moveSpeed * Time.deltaTime;
-        transform.LookAt(targetPosition);
+
+        // 仅在接近目标位置时才旋转
+        if (Vector3.Distance(transform.position, targetPosition) > 0.5f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); // 平滑旋转
+        }
     }
+
 
     void Attack()
     {

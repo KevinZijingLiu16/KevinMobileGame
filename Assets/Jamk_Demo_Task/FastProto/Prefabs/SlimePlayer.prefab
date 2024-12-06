@@ -4901,7 +4901,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5241817996956746580}
-  - component: {fileID: 7741905131565948838}
   - component: {fileID: 6700693647123149644}
   - component: {fileID: 1940683498846639891}
   m_Layer: 0
@@ -4930,27 +4929,6 @@ Transform:
   - {fileID: 5438803581966115946}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7741905131565948838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7148159892364685397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8daf21ee1df395641a4ea69de3ad741f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  jumpForce: 10
-  groundCheck: {fileID: 5669244719384993179}
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 0
-  isGrounded: 0
-  particles: {fileID: 9134218139110463277}
-  particleEmissionRate: 13
 --- !u!65 &6700693647123149644
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5077,6 +5055,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: be80d4faac8758345875b9c062be5a88, type: 2}
+    - target: {fileID: -6056379345430893120, guid: ff5bf9fb64bdd6540b771e3f7cf38ce7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.016
+      objectReference: {fileID: 0}
     - target: {fileID: -5165553604357565764, guid: ff5bf9fb64bdd6540b771e3f7cf38ce7,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -5157,4 +5140,4 @@ MonoBehaviour:
   scaleChangeSpeedMoving: 30
   scaleChangeSpeedNotMoving: 8
   jumpingScale: {x: 0.8, y: 0.8, z: 1.3}
-  basicMovement: {fileID: 7741905131565948838}
+  basicMovement: {fileID: 0}
