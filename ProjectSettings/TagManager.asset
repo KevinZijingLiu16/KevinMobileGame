@@ -7,6 +7,9 @@ TagManager:
   - RifleAttachSlot
   - PistolAttachSlot
   - Enemy
+  - EnemyMouth
+  - EnemyBall1
+  - EnemyBall2
   layers:
   - Default
   - TransparentFX

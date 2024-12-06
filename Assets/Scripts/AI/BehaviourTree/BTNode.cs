@@ -66,6 +66,7 @@ public abstract class BTNode
     private void EndNode()
     {
         started = false;
+        End();
     }
 
 

@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class Player : MonoBehaviour
 {
@@ -14,22 +16,23 @@ public class Player : MonoBehaviour
 
     [Header("Inventory")]
     [SerializeField] InventoryComponent inventoryComponent;
-    
+
+    [Header("Health")]
+    [SerializeField] HealthComponent healthComponent;
+    [SerializeField] PlayerHealthBar healthBar;
+
+    [Header("Death Screen")]
+    [SerializeField] CanvasGroup deathScreenCanvasGroup; // 死亡屏幕 UI 的 CanvasGroup
+    [SerializeField] TextMeshProUGUI deathMessageText; // 死亡信息文本
+    [SerializeField] float fadeDuration = 2f; // 淡入淡出持续时间
 
     Animator animator;
-    float animatorTurnSpeed;
-
-    
-
-
     Camera mainCamera;
     CameraController cameraController;
 
     Vector2 moveInput;
     Vector2 aimInput;
-
-
-
+    private bool isDead = false; // 是否死亡状态
 
     // Start is called before the first frame update
     void Start()
@@ -37,10 +40,76 @@ public class Player : MonoBehaviour
         moveStick.OnStickValueUpdated += moveStickUpdated;
         aimStick.OnStickValueUpdated += aimStickUpdated;
         aimStick.OnStickTabed += StartSwitchWeapon;
+
         mainCamera = Camera.main;
         cameraController = FindAnyObjectByType<CameraController>();
         animator = GetComponent<Animator>();
+
+        healthComponent.onHealthChanged += HealthChanged;
+        healthComponent.onHealthEmpty += OnDeath; // 监听死亡事件
+        healthComponent.BroadcastHealthValueImmediately();
+
+        // 初始化死亡屏幕
+        if (deathScreenCanvasGroup != null)
+        {
+            deathScreenCanvasGroup.alpha = 0; // 屏幕开始时完全透明
+        }
+        if (deathMessageText != null)
+        {
+            deathMessageText.enabled = false; // 文本开始时隐藏
+        }
     }
+
+    private void HealthChanged(float health, float delta, float maxHealth)
+    {
+        healthBar.UpdateHealth(health, delta, maxHealth);
+    }
+
+    private void OnDeath()
+    {
+        if (isDead) return;
+        isDead = true;
+
+        // 停止角色控制器和动作
+        characterController.enabled = false;
+        moveStick.OnStickValueUpdated -= moveStickUpdated;
+        aimStick.OnStickValueUpdated -= moveStickUpdated;
+
+        // 设置死亡动画触发器
+        animator.SetTrigger("Die");
+
+        // 开始显示死亡屏幕
+        StartCoroutine(ShowDeathScreenAndReload());
+    }
+
+    private IEnumerator ShowDeathScreenAndReload()
+    {
+        // 添加延迟，等待 1 秒后开始黑屏（可调整）
+        yield return new WaitForSeconds(1.5f);
+
+        // 屏幕淡入黑色
+        if (deathScreenCanvasGroup != null)
+        {
+            float timer = 0f;
+            while (timer < fadeDuration)
+            {
+                timer += Time.deltaTime;
+                deathScreenCanvasGroup.alpha = Mathf.Lerp(0, 1, timer / fadeDuration); // 线性插值改变透明度
+                yield return null;
+            }
+        }
+
+        // 显示 "You Die" 文本
+        if (deathMessageText != null)
+        {
+            deathMessageText.enabled = true;
+        }
+
+        // 等待 2 秒后重新加载场景
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
 
     public void AttackPoint()
     {
@@ -50,7 +119,6 @@ public class Player : MonoBehaviour
     void StartSwitchWeapon()
     {
         animator.SetTrigger("SwitchWeapon");
-        
     }
 
     public void SwitchWeapon()
@@ -58,16 +126,17 @@ public class Player : MonoBehaviour
         inventoryComponent.NextWeapon();
     }
 
-
     private void moveStickUpdated(Vector2 inputValue)
     {
+        if (isDead) return;
         moveInput = inputValue;
-
     }
 
     private void aimStickUpdated(Vector2 inputValue)
     {
+        if (isDead) return;
         aimInput = inputValue;
+
         if (aimInput.magnitude > 0)
         {
             animator.SetBool("Attacking", true);
@@ -76,20 +145,20 @@ public class Player : MonoBehaviour
         {
             animator.SetBool("Attacking", false);
         }
-
     }
 
     Vector3 StickInputToWorldDir(Vector2 inputVal)
     {
         Vector3 rightDir = mainCamera.transform.right;
         Vector3 upDir = Vector3.Cross(rightDir, Vector3.up);
-        return  rightDir * inputVal.x + upDir * inputVal.y;
-        
+        return rightDir * inputVal.x + upDir * inputVal.y;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isDead) return;
+
         PerformMoveAndAim();
         UpdateCamera();
     }
@@ -100,12 +169,10 @@ public class Player : MonoBehaviour
         characterController.Move(moveDir * Time.deltaTime * moveSpeed);
         UpdateAim(moveDir);
 
-        // Dot(a,b) = |a| |b| cos(theta)
-
-        float forword = Vector3.Dot( moveDir , transform.forward);
+        float forward = Vector3.Dot(moveDir, transform.forward);
         float right = Vector3.Dot(moveDir, transform.right);
 
-        animator.SetFloat("ForwardSpeed", forword);
+        animator.SetFloat("ForwardSpeed", forward);
         animator.SetFloat("RightSpeed", right);
     }
 
@@ -123,15 +190,9 @@ public class Player : MonoBehaviour
 
     private void UpdateCamera()
     {
-        //if the player is moving and not aiming, rotate the camera with the player
         if (moveInput.magnitude != 0 && aimInput.magnitude == 0 && cameraController != null)
         {
-
-            
-                cameraController.AddYawInput(moveInput.x);
-
-            
-
+            cameraController.AddYawInput(moveInput.x);
         }
     }
 
@@ -148,10 +209,23 @@ public class Player : MonoBehaviour
 
             float Dir = Vector3.Dot(aimDir, transform.right) > 0 ? 1 : -1;
             float rotationDelta = Quaternion.Angle(prevRot, currentRot) * Dir;
-             currentTurnSpeed = rotationDelta / Time.deltaTime;
+            currentTurnSpeed = rotationDelta / Time.deltaTime;
         }
 
-        animatorTurnSpeed = Mathf.Lerp(animatorTurnSpeed, currentTurnSpeed, Time.deltaTime  * animTurnSpeed);
-            animator.SetFloat("TurningSpeed", animatorTurnSpeed);
+        animator.SetFloat("TurningSpeed", currentTurnSpeed);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("EnemyBall1"))
+        {
+            float damageAmount = -10f;
+            healthComponent.ChangeHealth(damageAmount, other.gameObject);
+        }
+        if (other.CompareTag("EnemyBall2"))
+        {
+            float damageAmount = -20f;
+            healthComponent.ChangeHealth(damageAmount, other.gameObject);
+        }
     }
 }
