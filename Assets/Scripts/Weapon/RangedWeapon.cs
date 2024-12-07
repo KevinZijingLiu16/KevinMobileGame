@@ -17,6 +17,8 @@ public class RangedWeapon : Weapon
 
         bulletVfx.Emit(bulletVfx.emission.GetBurst(0).maxCount);
 
+        PlayFireAudio();
+
     }
 
 

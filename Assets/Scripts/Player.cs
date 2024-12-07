@@ -34,7 +34,12 @@ public class Player : MonoBehaviour
     Vector2 aimInput;
     private bool isDead = false; // 是否死亡状态
 
+    [SerializeField] AudioSource damageAudio;
+    [SerializeField] AudioSource deathAudio;
+    [SerializeField] AudioSource monsterEatAudio;
     // Start is called before the first frame update
+
+
     void Start()
     {
         moveStick.OnStickValueUpdated += moveStickUpdated;
@@ -58,6 +63,10 @@ public class Player : MonoBehaviour
         {
             deathMessageText.enabled = false; // 文本开始时隐藏
         }
+
+        damageAudio = GetComponent<AudioSource>();
+        deathAudio = GetComponent<AudioSource>();
+        monsterEatAudio = GetComponent<AudioSource>();
     }
 
     private void HealthChanged(float health, float delta, float maxHealth)
@@ -77,6 +86,9 @@ public class Player : MonoBehaviour
 
         // 设置死亡动画触发器
         animator.SetTrigger("Die");
+
+
+        deathAudio.Play();
 
         // 开始显示死亡屏幕
         StartCoroutine(ShowDeathScreenAndReload());
@@ -103,6 +115,8 @@ public class Player : MonoBehaviour
         if (deathMessageText != null)
         {
             deathMessageText.enabled = true;
+            deathMessageText.text = "You Die";
+            monsterEatAudio.Play();
         }
 
         // 等待 2 秒后重新加载场景
@@ -221,11 +235,14 @@ public class Player : MonoBehaviour
         {
             float damageAmount = -10f;
             healthComponent.ChangeHealth(damageAmount, other.gameObject);
+            damageAudio.Play();
+
         }
         if (other.CompareTag("EnemyBall2"))
         {
             float damageAmount = -20f;
             healthComponent.ChangeHealth(damageAmount, other.gameObject);
+            damageAudio.Play();
         }
     }
 }

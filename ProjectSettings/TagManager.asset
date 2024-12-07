@@ -10,6 +10,7 @@ TagManager:
   - EnemyMouth
   - EnemyBall1
   - EnemyBall2
+  - Collectible
   layers:
   - Default
   - TransparentFX

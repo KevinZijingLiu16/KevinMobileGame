@@ -8,7 +8,22 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] float AttackRateMultiplier = 1f;
     [SerializeField] AnimatorOverrideController overrideController;
 
+    [SerializeField] AudioClip fireAudio;
+    AudioSource fireAudioSource;
+    [SerializeField] float fireVolume = 1.0f;
+
+
+
+    private void Awake()
+    {
+        fireAudioSource = GetComponent<AudioSource>();
+    }
     public abstract void Attack();
+
+    public void PlayFireAudio()
+    {
+        fireAudioSource.PlayOneShot(fireAudio, fireVolume);
+    }
 
     public string GetAttachSlotTag()
     {
