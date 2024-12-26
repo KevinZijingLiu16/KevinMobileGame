@@ -27,7 +27,7 @@ public class BTTask_Wait : BTNode
         timeElapsed += Time.deltaTime;
         if (timeElapsed >= waitTime)
         {
-            //Debug.Log("wait ended");
+            Debug.Log("wait ended");
             return NodeResult.Success;
            
         }

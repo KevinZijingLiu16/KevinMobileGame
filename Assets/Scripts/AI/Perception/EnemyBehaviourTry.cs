@@ -23,7 +23,7 @@ public class EnemyBehaviorTry : MonoBehaviour
 
     private void OnAlwaysAwareSenseUpdated(PerceptionStimuli stimuli, bool successfullySensed)
     {
-        // 如果感知到玩家，开始发射水球
+       
         if (stimuli.CompareTag("Player") && successfullySensed)
         {
             if (!isShooting)

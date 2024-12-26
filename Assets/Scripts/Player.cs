@@ -42,8 +42,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        moveStick.OnStickValueUpdated += moveStickUpdated;
-        aimStick.OnStickValueUpdated += aimStickUpdated;
+        moveStick.OnStickValueUpdated += MoveStickUpdated;
+        aimStick.OnStickValueUpdated += AimStickUpdated;
         aimStick.OnStickTabed += StartSwitchWeapon;
 
         mainCamera = Camera.main;
@@ -81,8 +81,8 @@ public class Player : MonoBehaviour
 
         // 停止角色控制器和动作
         characterController.enabled = false;
-        moveStick.OnStickValueUpdated -= moveStickUpdated;
-        aimStick.OnStickValueUpdated -= moveStickUpdated;
+        moveStick.OnStickValueUpdated -= MoveStickUpdated;
+        aimStick.OnStickValueUpdated -= MoveStickUpdated;
 
         // 设置死亡动画触发器
         animator.SetTrigger("Die");
@@ -140,13 +140,13 @@ public class Player : MonoBehaviour
         inventoryComponent.NextWeapon();
     }
 
-    private void moveStickUpdated(Vector2 inputValue)
+    private void MoveStickUpdated(Vector2 inputValue)
     {
         if (isDead) return;
         moveInput = inputValue;
     }
 
-    private void aimStickUpdated(Vector2 inputValue)
+    private void AimStickUpdated(Vector2 inputValue)
     {
         if (isDead) return;
         aimInput = inputValue;
@@ -188,6 +188,8 @@ public class Player : MonoBehaviour
 
         animator.SetFloat("ForwardSpeed", forward);
         animator.SetFloat("RightSpeed", right);
+
+        characterController.Move(Vector3.down * Time.deltaTime * 10f);
     }
 
     private void UpdateAim(Vector3 currentMoveDir)

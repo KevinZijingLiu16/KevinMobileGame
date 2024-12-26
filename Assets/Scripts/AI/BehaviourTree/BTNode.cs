@@ -60,7 +60,7 @@ public abstract class BTNode
 
     protected virtual void End()
     {
-        // cleanup
+        // reset and cleanup
     }
 
     private void EndNode()
@@ -69,6 +69,31 @@ public abstract class BTNode
         End();
     }
 
+    public void Abort()
+    {
+        EndNode();
+
+    }
+
 
     private bool started = false;
+
+    int priority;
+
+    public int GetPriority()
+    {
+        return priority;
+    }
+
+    public virtual void SortPriority(ref int priorityCounter)
+    {
+        priority = priorityCounter++;
+        Debug.Log($"{this} has prority {priority}");
+    }
+
+    public virtual BTNode Get()
+    {
+        return this;
+
+    }
 }
